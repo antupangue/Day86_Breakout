@@ -1,5 +1,5 @@
 from turtle import Turtle
-STEP = 20
+from constants import *
 
 
 class Paddle(Turtle):
@@ -11,11 +11,15 @@ class Paddle(Turtle):
         self.pu()
         self.setheading(90)
         self.goto(0, -300)
+        self.size_x = abs(self.get_shapepoly()[0][0])
+        self.size_y = abs(self.get_shapepoly()[0][1])
 
     def go_right(self):
         x_coord = self.xcor() + STEP
-        self.goto(x_coord, self.ycor())
+        if x_coord + self.size_x < MAX_WIDTH/2:
+            self.goto(x_coord, self.ycor())
 
     def go_left(self):
         x_coord = self.xcor() - STEP
-        self.goto(x_coord, self.ycor())
+        if abs(x_coord) + self.size_x < MAX_WIDTH/2:
+            self.goto(x_coord, self.ycor())

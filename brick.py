@@ -1,4 +1,4 @@
-from turtle import Turtle, Shape, Screen
+from turtle import Turtle
 from constants import *
 
 
@@ -7,7 +7,7 @@ class Brick(Turtle):
         super().__init__()
         self.speed(0)
         self.size_x = (MAX_WIDTH - OFFSET_BOARD) / ROW_BRICKS
-        self.size_y = 20
+        self.size_y = WIDTH_BRICK
         self.shape(shape)
         self.hitpoints = idx_color + 1
         self.pu()

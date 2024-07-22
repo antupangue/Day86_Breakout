@@ -8,6 +8,7 @@ class Brick(Turtle):
         self.speed(0)
         self.size_x = (MAX_WIDTH - OFFSET_BOARD) / ROW_BRICKS
         self.size_y = WIDTH_BRICK
+        self.color_score = idx_color + 1
         self.shape(shape)
         self.hitpoints = idx_color + 1
         self.pu()

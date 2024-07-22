@@ -3,7 +3,6 @@ from paddle import Paddle
 from brick import Brick
 from board import Board
 from scoreboard import ScoreBoard
-from turtle import mainloop, Screen
 from constants import *
 from turtle import Shape
 from time import sleep
@@ -12,7 +11,10 @@ from math import acos, degrees
 
 
 def detect_collision():
-
+    """
+    Detect collisions between the ball and other objects and walls.
+    :return:
+    """
     # Bounce walls
     if abs(ball.xcor()) + ball.radius >= abs(board.border_x):
         ball.bounce_y()
@@ -45,7 +47,6 @@ def detect_collision():
     min_brick = bricks[min_idx]
     dist_min = ball.dist_brick(min_brick)
     for idx, brick in enumerate(bricks):
-
         # Check if brick is the closest
         dist_current = ball.dist_brick(brick)
         if dist_current < dist_min:
@@ -69,11 +70,16 @@ def detect_collision():
         # Reduce brick hit points
         min_brick.hitpoints -= 1
         if min_brick.hitpoints <= 0:
+            score.add_score(min_brick.color_score)
             min_brick.hideturtle()
             bricks.pop(min_idx)
 
 
 def init_shapes():
+    """
+    Initialize the different types of bricks (different colors). It register the shape turtle.
+    :return:
+    """
     size = (MAX_WIDTH - OFFSET_BOARD) / ROW_BRICKS
     poly1 = ((size/2, WIDTH_BRICK), (size/2, -WIDTH_BRICK), (-size/2, -WIDTH_BRICK), (-size/2, WIDTH_BRICK))
     for color in COLORS_BRICK:
@@ -83,6 +89,11 @@ def init_shapes():
 
 
 def init_bricks() -> list:
+    """
+    It generates all the required bricks according to the desired Rows and Size of the board. This is parametrized in
+    the file constants.py
+    :return: a list containing all bricks
+    """
     all_bricks = []
     for j in range(0, TOTAL_ROWS):
         for i in range(0, ROW_BRICKS):
@@ -95,7 +106,27 @@ def init_bricks() -> list:
 
 
 def lose():
-    print("Game Over")
+    """
+    Clean all elements in the screen and print final score and GAME OVER message.
+    :return:
+    """
+    for brick in bricks:
+        brick.hideturtle()
+    ball.hideturtle()
+    paddle.hideturtle()
+    score.print_score()
+    score.print_gameover()
+
+
+def win():
+    """
+    Clean the screen, print final score and YOU WIN message.
+    :return:
+    """
+    ball.hideturtle()
+    paddle.hideturtle()
+    score.print_score()
+    score.print_win()
 
 
 def main():
@@ -112,16 +143,20 @@ def main():
             playing = False
             lose()
             continue
+        if len(bricks) == 0:
+            playing = False
+            win()
         detect_collision()
 
     board.screen.mainloop()
 
 
 if __name__ == "__main__":
-    init_heading = rn.randint(181, 359)
+    init_heading = rn.randint(200, 300)
     board = Board()
     paddle = Paddle()
     ball = Ball(board, init_heading)
     init_shapes()
     bricks = init_bricks()
+    score = ScoreBoard()
     main()

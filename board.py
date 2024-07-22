@@ -14,6 +14,10 @@ class Board:
         self.__create_board()
 
     def __create_board(self):
+        """
+        Draw the borders of the play zone
+        :return:
+        """
         border = Turtle()
         border.hideturtle()
         border.speed(0)

@@ -12,10 +12,14 @@ class Paddle(Turtle):
         self.pu()
         self.setheading(90)
         self.goto(0, -Y_PADDLE)
-        self.size_x = abs(self.get_shapepoly()[0][0])
-        self.size_y = abs(self.get_shapepoly()[0][1])
+        self.size_x = abs(self.get_shapepoly()[0][0])    # Actual size of the paddle, needed for collisions
+        self.size_y = abs(self.get_shapepoly()[0][1])    # Actual size of the paddle, needed for collisions
 
     def go_right(self):
+        """
+        Move paddle to the right.
+        :return:
+        """
         x_coord = self.xcor() + STEP
         if x_coord + self.size_x < self.border_x:
             self.goto(x_coord, self.ycor())
@@ -23,6 +27,10 @@ class Paddle(Turtle):
             self.goto(self.border_x - self.size_x, self.ycor())
 
     def go_left(self):
+        """
+        Move paddle to the left.
+        :return:
+        """
         x_coord = self.xcor() - STEP
         if abs(x_coord) + self.size_x < self.border_x:
             self.goto(x_coord, self.ycor())
